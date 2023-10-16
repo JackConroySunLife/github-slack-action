@@ -67,7 +67,7 @@ on:
   workflow_run:
     workflows: [action-semantic-pull-request]
     types:
-      - completed
+      [completed]
 
 jobs:
   slack-workflow-status:

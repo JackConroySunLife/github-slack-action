@@ -23,6 +23,6 @@ jobs:
           slack_webhook_url: ${{secrets.SLACK_WEBHOOK_URL}}
           # Optional Input
           channel: '#github-slack-notification-ci-cd'
-          name: 'Anthony Workflow Bot'
-          icon_emoji: ':poop:'
+          name: 'Morse Coders Workflow Bot'
+          icon_emoji: ':github:'
           icon_url: 'https://avatars0.githubusercontent.com/u/1701160?s=96&v=4'

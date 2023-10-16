@@ -65,7 +65,7 @@ name: Github and Slack CI CD notification
 
 on:
   workflow_run:
-    workflows: [action-semantic-pull-request]
+    workflows: ["action-semantic-pull-request"]
     types:
       [completed]
 

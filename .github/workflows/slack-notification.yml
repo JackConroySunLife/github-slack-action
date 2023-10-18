@@ -17,8 +17,8 @@ jobs:
       - semantic-pr
     runs-on: ubuntu-latest
     steps:
-      if: ${{ success() }}
       - name: Send custom JSON data to Slack workflow
+        if: ${{ success() }}
         uses: slackapi/slack-github-action@v1.24.0
         id: slack
         with:
@@ -39,8 +39,9 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
-      if: ${{ failure() }}
+
       - name: Send custom JSON data to Slack workflow
+        if: ${{ failure() }}
         uses: slackapi/slack-github-action@v1.24.0
         id: slack
         with:

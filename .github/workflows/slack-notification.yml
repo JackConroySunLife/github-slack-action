@@ -35,9 +35,6 @@ jobs:
                 }
               ]
             }
-          name: 'Morse Coders Workflow Bot'
-          icon_emoji: ':github:'
-          icon_url: 'https://avatars0.githubusercontent.com/u/1701160?s=96&v=4'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK

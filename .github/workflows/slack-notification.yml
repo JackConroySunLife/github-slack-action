@@ -1,10 +1,7 @@
 name: Github and Slack CI CD notification
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_call:
 
 jobs:
   semantic-pr:

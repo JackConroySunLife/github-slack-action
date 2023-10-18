@@ -17,6 +17,7 @@ jobs:
       - semantic-pr
     runs-on: ubuntu-latest
     steps:
+      if: ${{ success() }}
       - name: Send custom JSON data to Slack workflow
         uses: slackapi/slack-github-action@v1.24.0
         id: slack
@@ -38,6 +39,29 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+      if: ${{ failure() }}
+      - name: Send custom JSON data to Slack workflow
+        uses: slackapi/slack-github-action@v1.24.0
+        id: slack
+        with:
+          # For posting a rich message using Block Kit
+          payload: |
+            {
+              "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "GitHub branch status ${{failure()}} : ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
 
   # slack-workflow-status:
   #   if: always()

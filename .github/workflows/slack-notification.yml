@@ -5,6 +5,8 @@ on:
 
 jobs:
   semantic-pr:
+    name: action-semantic-pull-request
+    runs-on: ubuntu-latest
     uses: ./.github/workflows/semantic-pull-request.yml
 
   slack-workflow-status:

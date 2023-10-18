@@ -12,8 +12,8 @@ jobs:
     uses: ./.github/workflows/semantic-pull-request.yml
 
   slack-workflow-status:
-    needs:
-      - semantic-pr
+    # needs:
+    #   - semantic-pr
     runs-on: ubuntu-latest
     steps:
       - name: Send custom JSON data to Slack workflow

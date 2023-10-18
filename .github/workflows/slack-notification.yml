@@ -12,7 +12,7 @@ jobs:
     uses: ./.github/workflows/semantic-pull-request.yml
 
   slack-workflow-status:
-    if: always()
+    if: failure()
     needs:
       - semantic-pr
     runs-on: ubuntu-latest

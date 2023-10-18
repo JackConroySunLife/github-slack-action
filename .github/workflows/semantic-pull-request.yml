@@ -1,8 +1,11 @@
 name: semantic-pull-request
+# on:
+#   # - a PR is opened, labeled or a commit is pushed (synchronize)
+#   pull_request:
+#     types: [opened, reopened, edited, ready_for_review, labeled, synchronize]
+
 on:
-  # - a PR is opened, labeled or a commit is pushed (synchronize)
-  pull_request:
-    types: [opened, reopened, edited, ready_for_review, labeled, synchronize]
+  workflow_call:
 
 jobs:
   action-semantic-pull-request:

@@ -15,8 +15,7 @@ jobs:
   #   uses: ./.github/workflows/unit-tests.yml
 
   slack-workflow-status:
-    needs:
-    - semantic-pull-requests
+    needs: semantic-pull-requests
     # - unit-tests
     if: always()
     runs-on: ubuntu-latest

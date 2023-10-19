@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Slack Notification Success
-        if: success()
+        if: jobs.semantic-pull-requests.status == 'success'
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_USERNAME: Github Actions
@@ -30,7 +30,7 @@ jobs:
         uses: maxwellhealth/action-slack-reporter@1.1.0
 
       - name: Slack Notification Failure
-        if: failure()
+        if: jobs.semantic-pull-requests.status == 'failure'
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_USERNAME: Github Actions

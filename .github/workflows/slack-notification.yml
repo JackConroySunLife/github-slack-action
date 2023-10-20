@@ -11,17 +11,16 @@ jobs:
   semantic-pull-requests:
     uses: ./.github/workflows/semantic-pull-request.yml
   
-  # unit-tests:
-  #   uses: ./.github/workflows/unit-tests.yml
+  ga-demo:
+    uses: ./.github/workflows/github-actions-demo.yml
 
   slack-workflow-status:
-    needs: semantic-pull-requests
-    # - unit-tests
+    needs: [semantic-pull-requests, ga-demo]
     if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Slack Notification Success
-        if: needs.semantic-pull-requests.result == 'success' 
+        if: needs.semantic-pull-requests.result == 'success' && 
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_USERNAME: Github Actions

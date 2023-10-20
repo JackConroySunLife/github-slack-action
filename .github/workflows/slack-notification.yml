@@ -5,24 +5,35 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+    types: [opened, reopened, edited, ready_for_review, labeled, synchronize]
 
 jobs:
+  semantic-pull-requests:
+    uses: ./.github/workflows/semantic-pull-request.yml
+  
+  ga-demo:
+    uses: ./.github/workflows/github-actions-demo.yml
+
   slack-workflow-status:
+    needs: [semantic-pull-requests, ga-demo]
     if: always()
-    name: Post Workflow Status To Slack
     runs-on: ubuntu-latest
-    # actions.read permission is required.
-    permissions:
-      actions: 'read'
     steps:
-      - name: Slack Workflow Notification
-        uses: Gamesight/slack-workflow-status@master
-        with:
-          # Required Input
-          repo_token: ${{secrets.GITHUB_TOKEN}}
-          slack_webhook_url: ${{secrets.SLACK_WEBHOOK_URL}}
-          # Optional Input
-          channel: '#anthony-test-channel'
-          name: 'Anthony Workflow Bot'
-          icon_emoji: ':poop:'
-          icon_url: 'https://avatars0.githubusercontent.com/u/1701160?s=96&v=4'
+      - name: Slack Notification Success
+        if: needs.semantic-pull-requests.result == 'success' && needs.ga-demo.result == 'success' 
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_USERNAME: Github Actions
+          SLACK_CHANNEL: github-slack-notification-ci-cd
+          SLACK_TITLE: Pull request success
+        uses: maxwellhealth/action-slack-reporter@1.1.0
+
+      - name: Slack Notification Failure
+        if: needs.semantic-pull-requests.result == 'failure' || needs.ga-demo.result == 'failure' 
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_USERNAME: Github Actions
+          SLACK_COLOR: '#FF0000'
+          SLACK_CHANNEL: github-slack-notification-ci-cd
+          SLACK_TITLE: Pull request failure
+        uses: maxwellhealth/action-slack-reporter@1.1.0
